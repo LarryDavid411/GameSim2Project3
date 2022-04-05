@@ -1,0 +1,18 @@
+Game Proposal:
+
+This game would be a 2D lunar lander style game.
+
+The controls of the game are similar to the lunar lander style game.
+There will be gravity, momentum, and thrust that moves the player.
+The player will have a certain amount of fuel that they will spend.
+If the player is going to fast, they will crash.
+
+There will be things like gates/doors to travel through and the player movement
+will need to be timed appropriately.
+
+There will also be things like docking the ship and attaching to other objects.
+
+Things I want to accomplish with this game:
+
+1. Create particle system for things like background stars and the fuel propulsion.
+2. Generate different levels and game mechanics.
