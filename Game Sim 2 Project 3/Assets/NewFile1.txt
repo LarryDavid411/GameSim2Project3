@@ -1,0 +1,254 @@
+
+
+
+Init() {
+
+    // level1
+    player.position.x = 320 / 2;
+    player.position.y = Mosaic->gridHeight - 2;
+
+}
+
+
+    // level2
+    RestartLevel2();
+    // level3
+    player3.position.x = 100;
+    player3.position.y = 10;
+    player3.width = 11;
+    player3.height = 3;
+    player3.bombs = 0;
+    for (int i = 0; i < numberOfBombs; i++) {
+        bomb[i].position.x = player3.position.x + (i * 4) + 1;
+        bomb[i].position.y = player3.position.y + player3.height;
+        bomb[i].attachedToPlayer = true;
+    }
+    for (int i = 0; i < numberOfPads; i++) {
+        pad[i].position.x = 100;
+        pad[i].position.y = RandfRange(120, 180);
+        pad[i].size.x = 10;
+        pad[i].size.y = 4;
+        pad[i].movement = RandfRange(-4, -1);
+        pad[i].hit = false;
+        if (i % 2 == 0) {
+            pad[i].movement = -pad[i].movement; 
+        }
+    }
+
+    //level4
+    RestartLevel4();
+    bool displayMenu4 = true;
+    // Level5
+    RestartLevel5();
+}
+void MainMenu() {
+    if (InputPressed(Input, Input_Return)) {
+        gameState++;
+    }
+
+    DrawTextScreenPixel(&Game->monoFont, V2(540, 200), 13.0f, RGB(1.0f, 1.0f, 1.0f), "Left - A Key");
+    DrawTextScreenPixel(&Game->monoFont, V2(540, 221), 13.0f, RGB(1.0f, 1.0f, 1.0f), "Right - D Key");
+    DrawTextScreenPixel(&Game->monoFont, V2(540, 242), 13.0f, RGB(1.0f, 1.0f, 1.0f), "Up - W Key");
+    DrawTextScreenPixel(&Game->monoFont, V2(540, 264), 13.0f, RGB(1.0f, 1.0f, 1.0f), "Down - S Key");
+    DrawTextScreenPixel(&Game->monoFont, V2(540, 285), 13.0f, RGB(1.0f, 1.0f, 1.0f), "Restart - Spacebar");
+    DrawTextScreenPixel(&Game->monoFont, V2(740, 657), 15.0f, RGB(1.0f, 1.0f, 1.0f), "Press Enter to Play Game");
+
+    DrawTextScreenPixel(&Game->monoFont, V2(530, 440), 40.0f, RGB(1.0f, 1.0f, 1.0f), "Socki Mini Games");
+
+    // @TODO: REnder button to start game
+}
+void RestartLevel1() {
+    player.position.x = 320 / 2;
+    player.position.y = Mosaic->gridHeight - 2;
+    movementTimerUp = 0;
+    movementTimerDown = 0;
+    movementTimerLeft = 0;
+    movementTimerRight = 0;
+    movementDuration = 4;
+    fuelTimer = 0;
+    totalFuel = 100;
+    initialFuel = 100;
+    doorPosition = 10;
+    doorExitTimer = 0;
+    doorOpener = 20;
+    doorExit = false;
+    displayCrash = false;
+}
+void Level1() {
+    ClearTiles(0, 0, 0);
+    
+    // LOGIC
+    //door close
+    doorTimer += DeltaTime;
+    if (InputPressed(Input, Input_Space)) {
+        RestartLevel1();
+    }
+    // close blocking door
+    if (doorTimer > 0.1f) {
+        doorPosition++;
+        doorTimer = 0;
+    }
+    vec2 previousPosition = V2(player.position.x, player.position.y);  
+    player.velocity.x += player.accell.x * DeltaTime;
+    player.velocity.y += player.accell.y * DeltaTime;
+    player.position.x += player.velocity.x * DeltaTime;
+    player.position.y += player.velocity.y * DeltaTime;
+    // move player
+    if (totalFuel > 0) {
+        if (InputHeld(Input, Input_Left)) {
+            movementTimerLeft += DeltaTime;
+            fuelTimer += DeltaTime;
+            SetTileColor(player.position.x + 1, player.position.y, 1.0f, 0.1f, 0.0f);
+            real32 t = movementTimerLeft / movementDuration;
+            player.accell.x = -Lerp(0, 20.0f, t);
+        }
+        if (InputHeld(Input, Input_Right)) {
+            movementTimerRight += DeltaTime;
+            fuelTimer += DeltaTime;
+            SetTileColor(player.position.x - 1, player.position.y, 1.0f, 0.1f, 0.0f);
+            real32 t = movementTimerRight / movementDuration;
+            player.accell.x = Lerp(0, 20.0f, t);
+        }
+        if (InputHeld(Input, Input_Up)) {
+            movementTimerUp += DeltaTime;
+            fuelTimer += DeltaTime;
+            SetTileColor(player.position.x, player.position.y + 1, 1.0f, 0.1f, 0.0f);
+            real32 t = movementTimerUp / movementDuration;
+            player.accell.y = -Lerp(0, 20.0f, t);
+        }
+        if (InputHeld(Input, Input_Down)) {
+            movementTimerDown += DeltaTime;
+            fuelTimer += DeltaTime;
+            SetTileColor(player.position.x, player.position.y - 1, 1.0f, 0.1f, 0.0f);
+            real32 t = movementTimerDown / movementDuration;
+            player.accell.y = Lerp(0, 20.0f, t);
+        }
+
+        if (InputReleased(Input, Input_Right)) {
+            player.accell.x = 0;
+            movementTimerRight = 0;
+        }
+        if (InputReleased(Input, Input_Left)) {
+            player.accell.x = 0;
+            movementTimerLeft = 0;
+        }
+        if (InputReleased(Input, Input_Up)) {
+            player.accell.y = 0;
+            movementTimerUp = 0;
+        }
+        if (InputReleased(Input, Input_Down)) {
+            player.accell.y = 0;
+            movementTimerDown = 0;
+        }
+    }
+    // fuel spent
+    if (fuelTimer > 0.1f) {
+        totalFuel--;
+        fuelTimer = 0;
+    }
+    // open door to exit
+    if (doorExitTimer >= 0.009f) {
+        doorOpener++;
+        doorExitTimer = 0;
+    }
+    
+    // collission detection
+    // door collision
+    if ((player.position.y >= 100 && player.position.y < 110 &&
+            player.position.x <= doorPosition) ||
+        (player.position.y >= 100 && player.position.y < 110 &&
+         player.position.x >= Mosaic->gridWidth - doorPosition)) {
+        player.velocity.x = 0;
+        player.velocity.y = 0;
+        player.accell.x = 0;
+        player.accell.y = 0;
+        player.position.x = previousPosition.x;
+        player.position.y = previousPosition.y;
+        totalFuel = 0;
+        displayCrash = true;
+    }
+    //landing pad detection
+    if (player.position.x >= 100 && player.position.x < 120 &&
+        player.position.y >= 40 && player.position.y < 50) {
+        doorExitTimer += DeltaTime;
+    }
+    // wall collision 
+    if (player.position.x <= 0 || player.position.x >= (Mosaic->gridWidth - 1)     ||
+        player.position.y <= 0 || player.position.y >= (Mosaic->gridHeight - 1)) {
+        if (doorExit && (player.position.y >= 20 && player.position.y < (20 + doorOpener ) &&
+                         player.position.x >= Mosaic->gridWidth)) 
+        {
+            gameState++;
+        }
+        player.velocity.x = 0;
+        player.velocity.y = 0;
+        player.accell.x = 0;
+        player.accell.y = 0;
+        if (player.position.x >= (Mosaic->gridWidth - 1)) {
+            player.position.x = (Mosaic->gridWidth - 2);
+        }
+        if (player.position.x <= 0) {
+            player.position.x = 1;
+        }
+        if (player.position.y >= (Mosaic->gridHeight - 1)) {
+            player.position.y = (Mosaic->gridHeight - 2);
+        }
+        if (player.position.y <= 0) {
+            player.position.y = 1;
+        }
+
+        //player.position.x = previousPosition.x;
+        //player.position.y = previousPosition.y;
+        totalFuel = 0;
+        displayCrash = true;
+    }   
+
+    // RENDER
+    if (displayCrash) {
+        DrawTextScreenPixel(&Game->monoFont, V2(510, 440), 80.0f, RGB(1.0f, 0.1f, 0.1f), "C R A S H");
+    }
+    // close door 
+    for (int x = 0; x < doorPosition; x++) {
+        for (int y = 100; y < 110; y++) {
+            SetTileColor(x, y, 0.3f, 0.3f, 0.3f);
+            SetTileColor(Mosaic->gridWidth - x, y, 0.3f, 0.3f, 0.3f);
+        }
+    }
+    // render landing pad
+    for (int x = 100; x < 120; x++) {
+        for (int y = 40; y < 50; y++) {
+            SetTileColor(x, y, 0.3f, 1.0f, 0.2f);
+        }
+    }
+    // render fuel
+    for (int x = 0; x < totalFuel; x++) {
+        for (int y = 2; y < 5; y++) {
+            SetTileColor(x, y, 1.0f, 0, 0);
+        }
+    }
+    // render player
+    SetTileColor(player.position.x, player.position.y, 0.5f, 1.0f, 1.0f);
+    // render edge
+    for (int x = 0; x < Mosaic->gridWidth; x++) {
+        for (int y = 0; y < Mosaic->gridHeight; y++) {
+            if (x == 0 || x == Mosaic->gridWidth - 1) {
+                SetTileColor(x, y, 1.0f, 1.0f, 1.0f);
+            }
+            if (y == 0 || y == Mosaic->gridHeight - 1) {
+                SetTileColor(x, y, 1.0f, 1.0f, 1.0f);
+            }
+        }
+    }
+    // render Exit door
+    for (int y = 20; y < doorOpener; y++) {
+        doorExit = true;
+        SetTileColor(Mosaic->gridWidth -1, y, 0, 0, 0);
+    }
+}
+
+
+Update() {
+    Level1();
+}
+
+
