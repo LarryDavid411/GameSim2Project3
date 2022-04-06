@@ -30,7 +30,7 @@ public class StarMover : MonoBehaviour
 
         if (destroy)
         {
-            Destroy(gameObject, 4);
+            Destroy(gameObject, 14);
 
         }
         
