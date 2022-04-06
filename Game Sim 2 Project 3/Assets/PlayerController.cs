@@ -9,7 +9,7 @@ using Vector3 = UnityEngine.Vector3;
 public class PlayerController : MonoBehaviour
 {
     public float fuel;
-    private Vector2 accelleration;
+    private Vector2 acceleration;
     private Vector3 velocity;
 
     //public Vector2 position;
@@ -22,10 +22,8 @@ public class PlayerController : MonoBehaviour
 
     public void MovePlayer()
     {
-        //float z = Input.GetAxis("Vertical");
-        //float x = Input.GetAxis("Horizontal");  
-        velocity.x += accelleration.x * Time.deltaTime;
-        velocity.y += accelleration.y * Time.deltaTime;
+        velocity.x += acceleration.x * Time.deltaTime;
+        velocity.y += acceleration.y * Time.deltaTime;
         Vector3 movePlayerPosition = new Vector2();
         movePlayerPosition.x = velocity.x * Time.deltaTime;
         movePlayerPosition.y = velocity.y * Time.deltaTime;
@@ -38,47 +36,46 @@ public class PlayerController : MonoBehaviour
             {
                 movementTimerRight += Time.deltaTime;
                 float time = movementTimerRight / movementDuration;
-                //Vector3 lerp = Vector3.Lerp(0f, 20f, time);
-                accelleration.x = Mathf.Lerp(0f, 20f, time);
-                Debug.Log(accelleration.x);
+                acceleration.x = Mathf.Lerp(0f, 20f, time);
             }
             if (Input.GetKey(KeyCode.LeftArrow))
             {
                 movementTimerLeft += Time.deltaTime;
                 float time = movementTimerLeft / movementDuration;
-               
-               //Debug.Log("LeftArrow");
+                acceleration.x = -Mathf.Lerp(0f, 20f, time);
             }
             if (Input.GetKey(KeyCode.UpArrow))
             {
                 movementTimerUp += Time.deltaTime;
                 float time = movementTimerUp / movementDuration;
-                
-                //Debug.Log("UpArrow");
+                acceleration.y = Mathf.Lerp(0f, 20f, time);
             }
             if (Input.GetKey(KeyCode.DownArrow))
             {
                 movementTimerDown += Time.deltaTime;
                 float time = movementTimerDown / movementDuration;
-                
-                //Debug.Log("DownArrow");
+                acceleration.y = -Mathf.Lerp(0f, 20f, time);
             }
             
             // Key Released
             if (Input.GetKeyUp(KeyCode.RightArrow))
-            {
+            { 
+               acceleration.x = 0;
                movementTimerRight = 0;
             }
             if (Input.GetKeyUp(KeyCode.LeftArrow))
             {
+                acceleration.x = 0;
                 movementTimerLeft = 0;
             }
             if (Input.GetKeyUp(KeyCode.UpArrow))
             {
+                acceleration.y = 0;
                 movementTimerUp = 0;
             }
             if (Input.GetKeyUp(KeyCode.DownArrow))
             {
+                acceleration.y = 0;
                 movementTimerDown = 0;
             }
              
