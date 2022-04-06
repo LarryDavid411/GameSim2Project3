@@ -6,6 +6,7 @@ public class GameController : MonoBehaviour
 {
 
     public GameObject playerController;
+    public GameObject starController;
 
     //private PlayerController playerObject = new PlayerController();
     // Start is called before the first frame update
@@ -24,5 +25,8 @@ public class GameController : MonoBehaviour
     {
         PlayerController player = playerController.GetComponent<PlayerController>();
         player.MovePlayer();
+
+        StarController star = starController.GetComponent<StarController>();
+        star.MoveAndGenerateStars();
     }
 }
