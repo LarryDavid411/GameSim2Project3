@@ -13,6 +13,11 @@ public class PlayerController : MonoBehaviour
     private Vector3 velocity;
     private Vector2 previousPosition;
 
+    public GameObject rightJet;
+    public GameObject leftJet;
+    public GameObject topJet;
+    public GameObject bottomJet;
+    
     public bool hitWall = false;
     public bool safeLanding = false;
     
@@ -50,7 +55,8 @@ public class PlayerController : MonoBehaviour
 
         if (!hitWall && !safeLanding)
         {
-            this.gameObject.transform.position += movePlayerPosition;
+            movePlayerPosition = transform.worldToLocalMatrix.inverse *(movePlayerPosition);
+            this.gameObject.transform.localPosition += movePlayerPosition;
             if (fuel > 0)
             {
                 // Key Down
@@ -59,6 +65,7 @@ public class PlayerController : MonoBehaviour
                     movementTimerRight += Time.deltaTime;
                     float time = movementTimerRight / movementDuration;
                     acceleration.x = Mathf.Lerp(0f, 20f, time);
+                    leftJet.SetActive(true);
                 }
 
                 if (Input.GetKey(KeyCode.LeftArrow))
@@ -66,6 +73,7 @@ public class PlayerController : MonoBehaviour
                     movementTimerLeft += Time.deltaTime;
                     float time = movementTimerLeft / movementDuration;
                     acceleration.x = -Mathf.Lerp(0f, 20f, time);
+                    rightJet.SetActive(true);
                 }
 
                 if (Input.GetKey(KeyCode.UpArrow))
@@ -73,6 +81,7 @@ public class PlayerController : MonoBehaviour
                     movementTimerUp += Time.deltaTime;
                     float time = movementTimerUp / movementDuration;
                     acceleration.y = Mathf.Lerp(0f, 20f, time);
+                    bottomJet.SetActive(true);
                 }
 
                 if (Input.GetKey(KeyCode.DownArrow))
@@ -80,6 +89,11 @@ public class PlayerController : MonoBehaviour
                     movementTimerDown += Time.deltaTime;
                     float time = movementTimerDown / movementDuration;
                     acceleration.y = -Mathf.Lerp(0f, 20f, time);
+                    topJet.SetActive(true);
+                }
+                if (Input.GetKey(KeyCode.A))
+                {
+                       
                 }
 
                 // Key Released
@@ -87,24 +101,28 @@ public class PlayerController : MonoBehaviour
                 {
                     acceleration.x = 0;
                     movementTimerRight = 0;
+                    leftJet.SetActive(false);
                 }
 
                 if (Input.GetKeyUp(KeyCode.LeftArrow))
                 {
                     acceleration.x = 0;
                     movementTimerLeft = 0;
+                    rightJet.SetActive(false);
                 }
 
                 if (Input.GetKeyUp(KeyCode.UpArrow))
                 {
                     acceleration.y = 0;
                     movementTimerUp = 0;
+                    bottomJet.SetActive(false);
                 }
 
                 if (Input.GetKeyUp(KeyCode.DownArrow))
                 {
                     acceleration.y = 0;
                     movementTimerDown = 0;
+                    topJet.SetActive(false);
                 }
 
             }

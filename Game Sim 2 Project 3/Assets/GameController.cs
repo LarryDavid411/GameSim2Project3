@@ -13,12 +13,6 @@ public class GameController : MonoBehaviour
 
     // private PlayerController playerObject = player.GetComponent<PlayerController>();
     //
-    
-    void Start()
-    {
-        
-        
-    }
 
     // Update is called once per frame
     void Update()
@@ -27,6 +21,6 @@ public class GameController : MonoBehaviour
         player.MovePlayer();
 
         StarController star = starController.GetComponent<StarController>();
-        star.MoveAndGenerateStars();
+        //star.MoveAndGenerateStars();
     }
 }
