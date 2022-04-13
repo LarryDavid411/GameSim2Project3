@@ -23,9 +23,18 @@ public class PlayerController : MonoBehaviour
     public GameObject bottomJet;
     public GameObject rightRotationJet;
     public GameObject leftRotationJet;
+
+    // CLAW
+    public GameObject claw;
+    public bool clawFullyOpened;
+    public float clawFullyOpenedDistance;
+    public bool clawFullyClosed;
+    public float clawFullyClosedDistance;
     
     public bool hitWall = false;
     public bool safeLanding = false;
+    public float clawSpeed;
+  
     
     //public Vector2 position;
     private float movementTimerRight;
@@ -155,7 +164,7 @@ public class PlayerController : MonoBehaviour
                 }
                 if (Input.GetKeyUp(KeyCode.A))
                 {
-                    rotationAccelleration.z = 0;
+                    rotationAccelleration.z = 0;    
                     rotateTimerA = 0;
                     leftRotationJet.SetActive(false);
                 }
@@ -164,6 +173,39 @@ public class PlayerController : MonoBehaviour
                     rotationAccelleration.z = 0;
                     rotateTimerF = 0;
                     rightRotationJet.SetActive(false);
+                }
+                
+                // CLAW OPERATION
+                if (Input.GetKey(KeyCode.C))
+                {
+                    if (claw.transform.localPosition.y >= clawFullyOpenedDistance)
+                    {
+                        clawFullyOpened = true;
+                        Debug.Log("HIT");
+                    }
+                    else
+                    {
+                        clawFullyOpened = false;
+                    }
+                    if (!clawFullyOpened)
+                    {
+                        claw.transform.position += (Vector3.up * Time.deltaTime * clawSpeed);
+                    }
+                }
+                if (Input.GetKey(KeyCode.V))
+                {
+                    if (claw.transform.localPosition.y <= clawFullyClosedDistance)
+                    {
+                        clawFullyClosed = true;
+                    }
+                    else
+                    {
+                        clawFullyClosed = false;
+                    }
+                    if (!clawFullyClosed)
+                    {
+                        claw.transform.position += (Vector3.down * Time.deltaTime * clawSpeed);
+                    }
                 }
             }
         }
