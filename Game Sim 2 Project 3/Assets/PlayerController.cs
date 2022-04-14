@@ -9,9 +9,11 @@ using Vector3 = UnityEngine.Vector3;
 public class PlayerController : MonoBehaviour
 {
     public float fuel;
+    public float playerSpeed;
     private Vector2 acceleration;
     private Vector3 velocity;
-    private Vector2 previousPosition;
+    private Vector3 previousPosition;
+    public Vector3 playerPositionDisplacement;
 
     private Vector3 rotationVelocity;
     private Vector3 rotationAccelleration;
@@ -69,8 +71,9 @@ public class PlayerController : MonoBehaviour
         velocity.x += acceleration.x * Time.deltaTime;
         velocity.y += acceleration.y * Time.deltaTime;
         Vector3 movePlayerPosition = new Vector2();
-        movePlayerPosition.x = velocity.x * Time.deltaTime;
-        movePlayerPosition.y = velocity.y * Time.deltaTime;
+        movePlayerPosition.x = velocity.x * Time.deltaTime * playerSpeed;
+        movePlayerPosition.y = velocity.y * Time.deltaTime * playerSpeed;
+        
         
         // ROTATION
         previousRotation = this.gameObject.transform.eulerAngles;
@@ -84,6 +87,7 @@ public class PlayerController : MonoBehaviour
             movePlayerPosition = transform.worldToLocalMatrix.inverse *(movePlayerPosition);
             this.gameObject.transform.localPosition += movePlayerPosition;
             this.gameObject.transform.Rotate(rotatePlayerPosition);
+            playerPositionDisplacement = transform.position - previousPosition; 
             if (fuel > 0)
             {
                 // Key Down
