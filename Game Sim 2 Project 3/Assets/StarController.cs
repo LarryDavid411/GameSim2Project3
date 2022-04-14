@@ -13,17 +13,20 @@ public class StarController : MonoBehaviour
     //public GameObject camera;
 
     private int starCount;
-    private Vector4[] starArray = new Vector4[100000]; 
+    private Vector4[] starArray = new Vector4[100000];
+    public GameObject levelManager;
 
     public void GenerateStars()
     {
+        float dimentionOfBoard = levelManager.GetComponent<LevelAttributesController>().levelDimentions;
+        //float numberOfStars = dimentionOfBoard * dimentionOfBoard;
         Vector3 randomStarPosition = new Vector3(0,0,0 );
-        float randomNumberOfStarsInRow = Random.Range(10, 100);
-        float randomNumberOfStarsInColumn = Random.Range(10, 1000);
+        float randomNumberOfStarsInRow = Random.Range(dimentionOfBoard/10, dimentionOfBoard/10);
+        float randomNumberOfStarsInColumn = Random.Range(dimentionOfBoard/10, dimentionOfBoard/10);
         for (int i = 0; i < randomNumberOfStarsInRow * randomNumberOfStarsInColumn; i++)
         {
-            randomStarPosition.x = Random.Range(-1230f, 1230f);
-            randomStarPosition.y = Random.Range(-1230f, 1230f);
+            randomStarPosition.x = Random.Range(-dimentionOfBoard, dimentionOfBoard);
+            randomStarPosition.y = Random.Range(-dimentionOfBoard, dimentionOfBoard);
             starArray[starCount] = randomStarPosition;
             GameObject starCreated = Instantiate(star, starParent);
             starCreated.GetComponent<StarMover>().transform.position = randomStarPosition;

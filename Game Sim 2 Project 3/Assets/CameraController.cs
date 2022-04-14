@@ -19,6 +19,15 @@ public class CameraController : MonoBehaviour
     {
         Vector3 cameraPosition = new Vector3(player.position.x, player.position.y, -10);
         camera.GetComponent<Transform>().position = cameraPosition;
+        if (Input.GetKey(KeyCode.I))
+        {
+            
+        }
+
+        if (Input.GetKey(KeyCode.O))
+        {
+            
+        }
     }
     
 }
