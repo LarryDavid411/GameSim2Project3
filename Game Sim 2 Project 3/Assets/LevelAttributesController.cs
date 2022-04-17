@@ -5,6 +5,8 @@ using UnityEngine;
 public class LevelAttributesController : MonoBehaviour
 {
     public float levelDimentions;
+
+    public Vector3 playerStartPosition;
     // Start is called before the first frame update
     void Start()
     {

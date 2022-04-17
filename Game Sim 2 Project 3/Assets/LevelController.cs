@@ -8,13 +8,15 @@ public class LevelController : MonoBehaviour
     public int currentLevel;
 
     public GameObject player;
-    public GameObject[] levels = new GameObject[5];
+    public GameObject[] levels = new GameObject[2];
 
-    public float levelMovementScale; 
-    //private Vector4[] cameraPositionForLevel;
+    public float levelMovementScale;
+    public GameObject levelSetController;
 
-    //public GameObject camera;
+    public bool advanceLevel;
 
+    public Animator animator;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -27,10 +29,53 @@ public class LevelController : MonoBehaviour
         // }
     }
 
+    public void FadeOutAnimation()
+    {
+        Debug.Log("Top is :" + advanceLevel);
+
+        if (Input.GetKey(KeyCode.Return))
+        {
+            animator.ResetTrigger("FadeIn");
+            animator.SetTrigger("FadeOut");
+            //animator.
+        }
+        
+        Debug.Log("Bottom is :" + advanceLevel);
+    }
+
+
+    public void ChangeLevel()
+    {
+        if (player.GetComponent<PlayerController>().safeLanding)
+        {
+            levels[currentLevel-1].SetActive(false);
+            currentLevel++;
+            levels[currentLevel-1].SetActive(true);
+        }
+        else if (player.GetComponent<PlayerController>().hitWall)
+        {
+            levelSetController.SetActive(true);
+            levelSetController.SetActive(false);
+        }
+        // levels[currentLevel-1].SetActive(false);
+        // currentLevel++;
+        // levels[currentLevel-1].SetActive(true);
+        //advanceLevel = false;
+        //Debug.Log(currentLevel);
+        animator.ResetTrigger("FadeOut");
+        animator.SetTrigger("FadeIn");
+        player.GetComponent<PlayerController>().safeLanding = false;
+        player.GetComponent<PlayerController>().hitWall = false;
+    }
+    
+    
     // Update is called once per frame
     void Update()
     {
-       // Vector3 playerMovement = player.GetComponent<PlayerController>().playerPositionDisplacement;
+        
+        
+        
+        // Vector3 playerMovement = player.GetComponent<PlayerController>().playerPositionDisplacement;
        // levels[currentLevel].transform.position += playerMovement / levelMovementScale;
 
 

@@ -48,40 +48,65 @@ public class PlayerController : MonoBehaviour
     
     public float movementDuration;
     public float rotateDuration;
+    public float safeLandingVelocity;
+    
+    // LEVEL Controller
+    public GameObject levelController;
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Wall")
         {
-            if (velocity.x > 1.0 || velocity.y > 1.0)
+            hitWall = true;
+            // if (velocity.x > 1.0 || velocity.y > 1.0)
+            // {
+            //     hitWall = true;
+            // }
+            // else
+            // {
+            //     safeLanding = true;
+            // }
+        }
+
+        if (other.gameObject.tag == "LandingPad")
+        {
+            if (Mathf.Abs(velocity.x) > safeLandingVelocity || Mathf.Abs(velocity.y) > safeLandingVelocity)
             {
                 hitWall = true;
             }
             else
             {
                 safeLanding = true;
+                Debug.Log("Safe Hit");
+                //levelController.GetComponent<LevelController>().advanceLevel = true;
             }
         }
     }
 
+    public void ChangeLevel()
+    {
+        
+    }
+
     public void MovePlayer()
     {
+        
         // MOVEMENT
         previousPosition = this.gameObject.transform.position; 
         velocity.x += acceleration.x * Time.deltaTime;
         velocity.y += acceleration.y * Time.deltaTime;
+        //Debug.Log(velocity);
+
         Vector3 movePlayerPosition = new Vector2();
         movePlayerPosition.x = velocity.x * Time.deltaTime * playerSpeed;
         movePlayerPosition.y = velocity.y * Time.deltaTime * playerSpeed;
-        
         
         // ROTATION
         previousRotation = this.gameObject.transform.eulerAngles;
         rotationVelocity.z += rotationAccelleration.z * Time.deltaTime;
         Vector3 rotatePlayerPosition = new Vector3();
         rotatePlayerPosition.z = rotationVelocity.z * Time.deltaTime;
-        
-        
+
         if (!hitWall && !safeLanding)
         {
             movePlayerPosition = transform.worldToLocalMatrix.inverse *(movePlayerPosition);
@@ -215,13 +240,14 @@ public class PlayerController : MonoBehaviour
         }
         else if (hitWall)
         {
-            this.gameObject.transform.position = previousPosition;
+            // this.gameObject.transform.position = previousPosition;
             Debug.Log("Crash");
         }
         else if (safeLanding)
         {
-            this.gameObject.transform.position = previousPosition;
+           // this.gameObject.transform.position = previousPosition;
             Debug.Log("SafeLanding");
+            levelController.GetComponent<LevelController>().FadeOutAnimation();
         }
         //Debug.Log("Current Velocity: " + velocity);
     }
