@@ -16,6 +16,16 @@ public class LevelController : MonoBehaviour
     public bool advanceLevel;
 
     public Animator animator;
+
+    public GameObject safeLandingText;
+    public GameObject youCrashedText;
+    public GameObject pressEnterNextLevelText;
+    public GameObject pressEnterPreviousLevel;
+
+    public float pressEnterDisplayTimer;
+    public bool pressEnterAllowed;
+    public bool fadingOut;
+    
     
     // Start is called before the first frame update
     void Start()
@@ -31,16 +41,45 @@ public class LevelController : MonoBehaviour
 
     public void FadeOutAnimation()
     {
-        Debug.Log("Top is :" + advanceLevel);
+        if (!fadingOut)
+        {
+            pressEnterDisplayTimer += Time.deltaTime;
+            if (pressEnterDisplayTimer > 1.0)
+            {
+                pressEnterAllowed = true;
+            }
+        
+            if (player.GetComponent<PlayerController>().safeLanding)
+            {
+                safeLandingText.SetActive(true);
+                if (pressEnterAllowed)
+                {
+                    pressEnterNextLevelText.SetActive(true);
+                }
+            }
+       
+            if (player.GetComponent<PlayerController>().hitWall)
+            {
+                youCrashedText.SetActive(true);
+                if (pressEnterAllowed)
+                {
+                    pressEnterPreviousLevel.SetActive(true);
+                }
+            }
+        }
 
-        if (Input.GetKey(KeyCode.Return))
+       if (Input.GetKey(KeyCode.Return) && pressEnterAllowed)
         {
             animator.ResetTrigger("FadeIn");
             animator.SetTrigger("FadeOut");
-            //animator.
+            safeLandingText.SetActive(false);
+            youCrashedText.SetActive(false);
+            pressEnterPreviousLevel.SetActive(false);
+            pressEnterNextLevelText.SetActive(false);
+            fadingOut = true;
         }
         
-        Debug.Log("Bottom is :" + advanceLevel);
+        //Debug.Log("Bottom is :" + advanceLevel);
     }
 
 
@@ -51,12 +90,14 @@ public class LevelController : MonoBehaviour
             levels[currentLevel-1].SetActive(false);
             currentLevel++;
             levels[currentLevel-1].SetActive(true);
+            
         }
         else if (player.GetComponent<PlayerController>().hitWall)
         {
             levelSetController.SetActive(true);
             levelSetController.SetActive(false);
         }
+       
         // levels[currentLevel-1].SetActive(false);
         // currentLevel++;
         // levels[currentLevel-1].SetActive(true);
@@ -66,6 +107,8 @@ public class LevelController : MonoBehaviour
         animator.SetTrigger("FadeIn");
         player.GetComponent<PlayerController>().safeLanding = false;
         player.GetComponent<PlayerController>().hitWall = false;
+        fadingOut = false;
+        pressEnterDisplayTimer = 0;
     }
     
     

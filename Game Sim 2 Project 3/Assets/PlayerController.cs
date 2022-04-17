@@ -77,7 +77,7 @@ public class PlayerController : MonoBehaviour
             else
             {
                 safeLanding = true;
-                Debug.Log("Safe Hit");
+                //Debug.Log("Safe Hit");
                 //levelController.GetComponent<LevelController>().advanceLevel = true;
             }
         }
@@ -241,12 +241,13 @@ public class PlayerController : MonoBehaviour
         else if (hitWall)
         {
             // this.gameObject.transform.position = previousPosition;
-            Debug.Log("Crash");
+           // Debug.Log("Crash");
+           levelController.GetComponent<LevelController>().FadeOutAnimation();
         }
         else if (safeLanding)
         {
            // this.gameObject.transform.position = previousPosition;
-            Debug.Log("SafeLanding");
+           // Debug.Log("SafeLanding");
             levelController.GetComponent<LevelController>().FadeOutAnimation();
         }
         //Debug.Log("Current Velocity: " + velocity);
