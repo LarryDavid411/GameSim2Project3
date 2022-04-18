@@ -57,7 +57,7 @@ public class UIController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(tabImage.GetComponent<RectTransform>().eulerAngles.z);
+        //Debug.Log(tabImage.GetComponent<RectTransform>().eulerAngles.z);
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             if (closedTab)

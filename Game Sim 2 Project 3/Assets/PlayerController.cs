@@ -10,8 +10,8 @@ public class PlayerController : MonoBehaviour
 {
     public float fuel;
     public float playerSpeed;
-    private Vector2 acceleration;
-    private Vector3 velocity;
+    public Vector2 acceleration;
+    public Vector3 velocity;
     private Vector3 previousPosition;
     public Vector3 playerPositionDisplacement;
 

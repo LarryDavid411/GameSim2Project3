@@ -94,9 +94,17 @@ public class LevelController : MonoBehaviour
         }
         else if (player.GetComponent<PlayerController>().hitWall)
         {
-            levelSetController.SetActive(true);
-            levelSetController.SetActive(false);
+          
+            //levelSetController.SetActive(true);
+            //levelSetController.SetActive(false);
+            
+            // SET ACCEL TO ZERO.
+           
         }
+        player.GetComponent<PlayerController>().acceleration = Vector2.zero;
+        player.GetComponent<PlayerController>().velocity = Vector3.zero;
+        player.transform.position =
+            levels[currentLevel - 1].GetComponent<LevelAttributesController>().playerStartPosition;
        
         // levels[currentLevel-1].SetActive(false);
         // currentLevel++;

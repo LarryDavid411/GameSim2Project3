@@ -10,6 +10,9 @@ public class LevelSetController : MonoBehaviour
     public GameObject player;
 
     public GameObject levelManager;
+
+    public GameObject playerStartLocation;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -19,6 +22,6 @@ public class LevelSetController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }

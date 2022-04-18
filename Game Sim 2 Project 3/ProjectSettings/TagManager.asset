@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Wall
   - LandingPad
+  - ClawObject
   layers:
   - Default
   - TransparentFX
