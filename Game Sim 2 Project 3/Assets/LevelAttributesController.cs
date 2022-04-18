@@ -7,6 +7,10 @@ public class LevelAttributesController : MonoBehaviour
     public float levelDimentions;
 
     public Vector3 playerStartPosition;
+
+    public bool gameObjectInProperLocation;
+
+    public bool levelCanAdvance;
     // Start is called before the first frame update
     void Start()
     {
@@ -16,6 +20,13 @@ public class LevelAttributesController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (gameObjectInProperLocation)
+        {
+            levelCanAdvance = true;
+        }
+        else
+        {
+            levelCanAdvance = false;
+        }
     }
 }

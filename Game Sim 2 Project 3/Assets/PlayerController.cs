@@ -96,6 +96,7 @@ public class PlayerController : MonoBehaviour
         velocity.x += acceleration.x * Time.deltaTime;
         velocity.y += acceleration.y * Time.deltaTime;
         //Debug.Log(velocity);
+        fuel -= Mathf.Abs(acceleration.x * Time.deltaTime) + Mathf.Abs(acceleration.y* Time.deltaTime);
 
         Vector3 movePlayerPosition = new Vector2();
         movePlayerPosition.x = velocity.x * Time.deltaTime * playerSpeed;
