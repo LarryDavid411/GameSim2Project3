@@ -11,6 +11,18 @@ public class UIController : MonoBehaviour
     public float rotationSpeed;
     public GameObject tabImage;
     public GameObject controlsText;
+
+    public GameObject player;
+
+    public GameObject velocityGagueForward;
+    public GameObject accelGagueForward;
+    public GameObject velocityGagueReverse;
+    public GameObject accelGagueReverse;
+    public GameObject velocityGagueLeft;
+    public GameObject accelGagueLeft;
+    public GameObject velocityGagueRight;
+    public GameObject accelGagueRight;
+
     
     // Start is called before the first frame update
     void Start()
@@ -35,8 +47,6 @@ public class UIController : MonoBehaviour
             controlsText.SetActive(true);
         }
     }
-    
-
 
     public void RotateTabClosed()
     {
