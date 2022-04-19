@@ -31,6 +31,15 @@ public class UIController : MonoBehaviour
         controlsText.SetActive(false);
     }
 
+    public void FuelGauge()
+    {
+        
+    }
+
+    public void UpdateGauges()
+    {
+        
+    }
     public void RotateTabOpen()
     {
 
@@ -90,5 +99,7 @@ public class UIController : MonoBehaviour
             RotateTabClosed();
         }
 
+        FuelGauge();
+        UpdateGauges();
     }
 }
