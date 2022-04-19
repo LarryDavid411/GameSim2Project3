@@ -52,6 +52,7 @@ public class PlayerController : MonoBehaviour
     
     // LEVEL Controller
     public GameObject levelController;
+    public bool gameObjectInProperLocation;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -250,6 +251,7 @@ public class PlayerController : MonoBehaviour
            // this.gameObject.transform.position = previousPosition;
            // Debug.Log("SafeLanding");
             levelController.GetComponent<LevelController>().FadeOutAnimation();
+           // if (gameObjectInProperLocation)
         }
         //Debug.Log("Current Velocity: " + velocity);
     }

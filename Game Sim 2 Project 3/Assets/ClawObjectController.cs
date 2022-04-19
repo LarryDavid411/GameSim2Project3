@@ -21,7 +21,14 @@ public class ClawObjectController : MonoBehaviour
         if (other.gameObject.tag == "ClawObjectLandingPad")
         {
             levelController.GetComponent<LevelAttributesController>().gameObjectInProperLocation = true;
-            
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.tag == "ClawObjectLandingPad")
+        {
+            levelController.GetComponent<LevelAttributesController>().gameObjectInProperLocation = true;
         }
     }
 
@@ -30,7 +37,6 @@ public class ClawObjectController : MonoBehaviour
         if (other.gameObject.tag == "ClawObjectLandingPad")
         {
             levelController.GetComponent<LevelAttributesController>().gameObjectInProperLocation = false;
-            
         }
     }
 

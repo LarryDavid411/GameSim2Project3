@@ -21,11 +21,13 @@ public class LevelController : MonoBehaviour
     public GameObject youCrashedText;
     public GameObject pressEnterNextLevelText;
     public GameObject pressEnterPreviousLevel;
+    public GameObject objectNotInProperLocationText;
 
     public float pressEnterDisplayTimer;
     public bool pressEnterAllowed;
     public bool fadingOut;
-    
+
+   // public GameObject levelAttributesController;
     
     // Start is called before the first frame update
     void Start()
@@ -51,10 +53,21 @@ public class LevelController : MonoBehaviour
         
             if (player.GetComponent<PlayerController>().safeLanding)
             {
-                safeLandingText.SetActive(true);
-                if (pressEnterAllowed)
+                if (levels[currentLevel - 1].GetComponent<LevelAttributesController>().gameObjectInProperLocation)
                 {
-                    pressEnterNextLevelText.SetActive(true);
+                    safeLandingText.SetActive(true);
+                    if (pressEnterAllowed)
+                    {
+                        pressEnterNextLevelText.SetActive(true);
+                    } 
+                }
+                else
+                {
+                    objectNotInProperLocationText.SetActive(true);
+                    if (pressEnterAllowed)
+                    {
+                        pressEnterPreviousLevel.SetActive(true);
+                    } 
                 }
             }
        
@@ -76,25 +89,30 @@ public class LevelController : MonoBehaviour
             youCrashedText.SetActive(false);
             pressEnterPreviousLevel.SetActive(false);
             pressEnterNextLevelText.SetActive(false);
+            objectNotInProperLocationText.SetActive(false);
             fadingOut = true;
         }
-        
-        //Debug.Log("Bottom is :" + advanceLevel);
     }
-
 
     public void ChangeLevel()
     {
         if (player.GetComponent<PlayerController>().safeLanding)
         {
-            levels[currentLevel-1].SetActive(false);
-            currentLevel++;
-            levels[currentLevel-1].SetActive(true);
-            
+            if (levels[currentLevel - 1].GetComponent<LevelAttributesController>().gameObjectInProperLocation)
+            {
+                levels[currentLevel-1].SetActive(false);
+                currentLevel++;
+                levels[currentLevel-1].SetActive(true);
+            }
+            else
+            {
+                
+            }
         }
         else if (player.GetComponent<PlayerController>().hitWall)
         {
-          
+           // player.GetComponent<PlayerController>().velocity = Vector3.zero;
+           // player.GetComponent<PlayerController>().acceleration = Vector2.zero;
             //levelSetController.SetActive(true);
             //levelSetController.SetActive(false);
             
@@ -117,6 +135,7 @@ public class LevelController : MonoBehaviour
         player.GetComponent<PlayerController>().hitWall = false;
         fadingOut = false;
         pressEnterDisplayTimer = 0;
+        pressEnterAllowed = false;
     }
     
     
