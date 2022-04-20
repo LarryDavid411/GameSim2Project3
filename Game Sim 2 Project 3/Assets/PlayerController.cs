@@ -14,17 +14,26 @@ public class PlayerController : MonoBehaviour
     public Vector3 velocity;
     private Vector3 previousPosition;
     public Vector3 playerPositionDisplacement;
-
-    private Vector3 rotationVelocity;
-    private Vector3 rotationAccelleration;
+    
+    public Vector3 rotationVelocity;
+    public Vector3 rotationAccelleration;
     private Vector3 previousRotation;
 
+    /*
     public GameObject rightJet;
     public GameObject leftJet;
     public GameObject topJet;
     public GameObject bottomJet;
     public GameObject rightRotationJet;
     public GameObject leftRotationJet;
+    */
+    
+    public ParticleSystem bottomFlame;
+    public ParticleSystem topFlame;
+    public ParticleSystem rightFlame;
+    public ParticleSystem leftFlame;
+    public ParticleSystem rightRotationFlame;
+    public ParticleSystem leftRotationFlame;
 
     // CLAW
     public GameObject claw;
@@ -123,7 +132,8 @@ public class PlayerController : MonoBehaviour
                     movementTimerRight += Time.deltaTime;
                     float time = movementTimerRight / movementDuration;
                     acceleration.x = Mathf.Lerp(0f, 20f, time);
-                    leftJet.SetActive(true);
+                    //leftJet.SetActive(true);
+                    leftFlame.gameObject.SetActive(true);
                 }
 
                 if (Input.GetKey(KeyCode.LeftArrow))
@@ -131,7 +141,8 @@ public class PlayerController : MonoBehaviour
                     movementTimerLeft += Time.deltaTime;
                     float time = movementTimerLeft / movementDuration;
                     acceleration.x = -Mathf.Lerp(0f, 20f, time);
-                    rightJet.SetActive(true);
+                    //rightJet.SetActive(true);
+                    rightFlame.gameObject.SetActive(true);
                 }
 
                 if (Input.GetKey(KeyCode.UpArrow))
@@ -139,7 +150,8 @@ public class PlayerController : MonoBehaviour
                     movementTimerUp += Time.deltaTime;
                     float time = movementTimerUp / movementDuration;
                     acceleration.y = Mathf.Lerp(0f, 20f, time);
-                    bottomJet.SetActive(true);
+                    //bottomJet.SetActive(true);
+                    bottomFlame.gameObject.SetActive(true);
                 }
 
                 if (Input.GetKey(KeyCode.DownArrow))
@@ -147,14 +159,18 @@ public class PlayerController : MonoBehaviour
                     movementTimerDown += Time.deltaTime;
                     float time = movementTimerDown / movementDuration;
                     acceleration.y = -Mathf.Lerp(0f, 20f, time);
-                    topJet.SetActive(true);
+                   // topJet.SetActive(true);
+                    topFlame.gameObject.SetActive(true);
                 }
+                
+                
                 if (Input.GetKey(KeyCode.A))
                 {
                     rotateTimerA += Time.deltaTime;
                     float time = rotateTimerA / rotateDuration;
                     rotationAccelleration.z = -Mathf.Lerp(0, 10, time);
-                    leftRotationJet.SetActive(true);
+                   //  leftRotationJet.SetActive(true);
+                    leftRotationFlame.gameObject.SetActive(true);
 
                 }
                 if (Input.GetKey(KeyCode.F))
@@ -162,7 +178,8 @@ public class PlayerController : MonoBehaviour
                     rotateTimerF += Time.deltaTime;
                     float time = rotateTimerF / rotateDuration;
                     rotationAccelleration.z = Mathf.Lerp(0, 5, time);
-                    rightRotationJet.SetActive(true);
+                    //  rightRotationJet.SetActive(true);
+                    rightRotationFlame.gameObject.SetActive(true);
                 }
 
                 // Key Released
@@ -170,40 +187,47 @@ public class PlayerController : MonoBehaviour
                 {
                     acceleration.x = 0;
                     movementTimerRight = 0;
-                    leftJet.SetActive(false);
+                   // leftJet.SetActive(false);
+                   leftFlame.gameObject.SetActive(false);
                 }
 
                 if (Input.GetKeyUp(KeyCode.LeftArrow))
                 {
                     acceleration.x = 0;
                     movementTimerLeft = 0;
-                    rightJet.SetActive(false);
+                   // rightJet.SetActive(false);
+                   rightFlame.gameObject.SetActive(false);
                 }
 
                 if (Input.GetKeyUp(KeyCode.UpArrow))
                 {
                     acceleration.y = 0;
                     movementTimerUp = 0;
-                    bottomJet.SetActive(false);
+                    //bottomJet.SetActive(false);
+                    bottomFlame.gameObject.SetActive(false);
                 }
 
                 if (Input.GetKeyUp(KeyCode.DownArrow))
                 {
                     acceleration.y = 0;
                     movementTimerDown = 0;
-                    topJet.SetActive(false);
+                    //topJet.SetActive(false);
+                    topFlame.gameObject.SetActive(false);
+                   
                 }
                 if (Input.GetKeyUp(KeyCode.A))
                 {
                     rotationAccelleration.z = 0;    
                     rotateTimerA = 0;
-                    leftRotationJet.SetActive(false);
+                    //leftRotationJet.SetActive(false);
+                    leftRotationFlame.gameObject.SetActive(false);
                 }
                 if (Input.GetKeyUp(KeyCode.F))
                 {
                     rotationAccelleration.z = 0;
                     rotateTimerF = 0;
-                    rightRotationJet.SetActive(false);
+                    //rightRotationJet.SetActive(false);
+                    rightRotationFlame.gameObject.SetActive(false);
                 }
                 
                 // CLAW OPERATION

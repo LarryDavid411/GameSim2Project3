@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIController : MonoBehaviour
 {
@@ -22,6 +23,10 @@ public class UIController : MonoBehaviour
     public GameObject accelGagueLeft;
     public GameObject velocityGagueRight;
     public GameObject accelGagueRight;
+    public GameObject rotationGaugeRightAccel;
+    public GameObject rotationGaugeRightVelocity;
+    public GameObject rotationGaugeLeftAccel;
+    public GameObject rotationGaugeLeftVelocity;
 
     
     // Start is called before the first frame update
@@ -33,10 +38,149 @@ public class UIController : MonoBehaviour
 
     public void FuelGauge()
     {
+        // Forward & Reverse Velocity
+        if (player.gameObject.GetComponent<PlayerController>().velocity.y > 0)
+        {
+            velocityGagueForward.gameObject.GetComponent<Text>().text =
+                player.gameObject.GetComponent<PlayerController>().velocity.y.ToString();
+        }
+        else
+        {
+            velocityGagueForward.gameObject.GetComponent<Text>().text = "0.0";
+        }
         
-    }
+        if (player.gameObject.GetComponent<PlayerController>().velocity.y < 0)
+        {
+            float reverseVelocityFloat = -player.gameObject.GetComponent<PlayerController>().velocity.y;
+            string reverseVelocityString = reverseVelocityFloat.ToString();
 
-    public void UpdateGauges()
+            velocityGagueReverse.gameObject.GetComponent<Text>().text = reverseVelocityString;
+        }
+        else
+        {
+            velocityGagueReverse.gameObject.GetComponent<Text>().text = "0.0";
+        }
+        
+        // Left & Right Velocity
+        if (player.gameObject.GetComponent<PlayerController>().velocity.x > 0)
+        {
+            velocityGagueRight.gameObject.GetComponent<Text>().text =
+                player.gameObject.GetComponent<PlayerController>().velocity.x.ToString();
+        }
+        else
+        {
+            velocityGagueRight.gameObject.GetComponent<Text>().text = "0.0";
+        }
+        
+        if (player.gameObject.GetComponent<PlayerController>().velocity.x < 0)
+        {
+            float leftVelocityFloat = -player.gameObject.GetComponent<PlayerController>().velocity.x;
+            string leftVelocityString = leftVelocityFloat.ToString();
+
+            velocityGagueLeft.gameObject.GetComponent<Text>().text = leftVelocityString;
+        }
+        else
+        {
+            velocityGagueLeft.gameObject.GetComponent<Text>().text = "0.0";
+        }
+        
+        // Forward & Reverse Acceleration
+        if (player.gameObject.GetComponent<PlayerController>().acceleration.y > 0)
+        {
+            accelGagueForward.gameObject.GetComponent<Text>().text =
+                player.gameObject.GetComponent<PlayerController>().acceleration.y.ToString();
+        }
+        else
+        {
+            accelGagueForward.gameObject.GetComponent<Text>().text = "0.0";
+        }
+        
+        if (player.gameObject.GetComponent<PlayerController>().acceleration.y < 0)
+        {
+            float forwardAccelerationFloat = -player.gameObject.GetComponent<PlayerController>().acceleration.y;
+            string forwardAccelerationString = forwardAccelerationFloat.ToString();
+
+            accelGagueReverse.gameObject.GetComponent<Text>().text = forwardAccelerationString;
+        }
+        else
+        {
+            accelGagueReverse.gameObject.GetComponent<Text>().text = "0.0";
+        }
+        
+        // Left & Right Accelleration
+        if (player.gameObject.GetComponent<PlayerController>().acceleration.x > 0)
+        {
+            accelGagueRight.gameObject.GetComponent<Text>().text =
+                player.gameObject.GetComponent<PlayerController>().acceleration.x.ToString();
+        }
+        else
+        {
+            accelGagueRight.gameObject.GetComponent<Text>().text = "0.0";
+        }
+        
+        if (player.gameObject.GetComponent<PlayerController>().acceleration.x < 0)
+        {
+            float leftAccelerationFloat = -player.gameObject.GetComponent<PlayerController>().acceleration.x;
+            string leftAccelerationString = leftAccelerationFloat.ToString();
+
+            accelGagueLeft.gameObject.GetComponent<Text>().text = leftAccelerationString;
+        }
+        else
+        {
+            accelGagueLeft.gameObject.GetComponent<Text>().text = "0.0";
+        }
+        
+        // Rotation Acceleration
+        if (player.gameObject.GetComponent<PlayerController>().rotationAccelleration.z > 0)
+        {
+            rotationGaugeRightAccel.gameObject.GetComponent<Text>().text = player.gameObject
+                .GetComponent<PlayerController>().rotationAccelleration.z.ToString();
+        }
+        else
+        {
+            rotationGaugeRightAccel.gameObject.GetComponent<Text>().text = "0.0";
+        }
+        if (player.gameObject.GetComponent<PlayerController>().rotationAccelleration.z < 0)
+        {
+            float leftRotationAccelerationFloat = -player.gameObject
+                .GetComponent<PlayerController>().rotationAccelleration.z;
+            string leftRotationAccelerationString = leftRotationAccelerationFloat.ToString();
+
+            rotationGaugeLeftAccel.gameObject.GetComponent<Text>().text = leftRotationAccelerationString;
+        }
+        else
+        {
+            rotationGaugeLeftAccel.gameObject.GetComponent<Text>().text = "0.0";
+        }
+        
+        // Rotation Velocity
+        if (player.gameObject.GetComponent<PlayerController>().rotationVelocity.z > 0)
+        {
+            rotationGaugeRightVelocity.gameObject.GetComponent<Text>().text =
+                player.gameObject.GetComponent<PlayerController>().rotationVelocity.z.ToString();
+        }
+        else
+        {
+            rotationGaugeRightVelocity.gameObject.GetComponent<Text>().text = "0.0";
+        }
+
+        if (player.gameObject.GetComponent<PlayerController>().rotationVelocity.z < 0)
+        {
+            float leftRotationVelocityFloat =
+                -player.gameObject.GetComponent<PlayerController>().rotationVelocity.z;
+            string leftRotationVelocityString = leftRotationVelocityFloat.ToString();
+
+            rotationGaugeLeftVelocity.gameObject.GetComponent<Text>().text = leftRotationVelocityString;
+        }
+        else
+        {
+            rotationGaugeLeftVelocity.gameObject.GetComponent<Text>().text = "0.0";
+        }
+    }
+    
+
+
+    public void UpdateMovementGauges()
     {
         
     }
@@ -100,6 +244,6 @@ public class UIController : MonoBehaviour
         }
 
         FuelGauge();
-        UpdateGauges();
+        UpdateMovementGauges();
     }
 }

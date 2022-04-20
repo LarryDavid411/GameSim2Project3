@@ -121,6 +121,8 @@ public class LevelController : MonoBehaviour
         }
         player.GetComponent<PlayerController>().acceleration = Vector2.zero;
         player.GetComponent<PlayerController>().velocity = Vector3.zero;
+        player.GetComponent<PlayerController>().rotationAccelleration = Vector3.zero;
+        player.GetComponent<PlayerController>().rotationVelocity = Vector3.zero;
         player.transform.position =
             levels[currentLevel - 1].GetComponent<LevelAttributesController>().playerStartPosition;
        
