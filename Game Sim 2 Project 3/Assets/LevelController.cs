@@ -125,7 +125,7 @@ public class LevelController : MonoBehaviour
         player.GetComponent<PlayerController>().rotationVelocity = Vector3.zero;
         player.transform.position =
             levels[currentLevel - 1].GetComponent<LevelAttributesController>().playerStartPosition;
-       
+        player.transform.eulerAngles = levels[currentLevel - 1].GetComponent<LevelAttributesController>().playerStartRotation;
         // levels[currentLevel-1].SetActive(false);
         // currentLevel++;
         // levels[currentLevel-1].SetActive(true);

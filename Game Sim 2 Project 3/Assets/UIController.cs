@@ -14,6 +14,7 @@ public class UIController : MonoBehaviour
     public GameObject controlsText;
 
     public GameObject player;
+   // public GameObject 
 
     public GameObject velocityGagueForward;
     public GameObject accelGagueForward;

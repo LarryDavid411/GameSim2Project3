@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
 {
     public float fuel;
     public float playerSpeed;
+    public float rotationSpeed;
     public Vector2 acceleration;
     public Vector3 velocity;
     private Vector3 previousPosition;
@@ -18,6 +19,7 @@ public class PlayerController : MonoBehaviour
     public Vector3 rotationVelocity;
     public Vector3 rotationAccelleration;
     private Vector3 previousRotation;
+    
 
     /*
     public GameObject rightJet;
@@ -34,6 +36,8 @@ public class PlayerController : MonoBehaviour
     public ParticleSystem leftFlame;
     public ParticleSystem rightRotationFlame;
     public ParticleSystem leftRotationFlame;
+
+    public ParticleSystem[] allFlames = new ParticleSystem[6];
 
     // CLAW
     public GameObject claw;
@@ -103,8 +107,8 @@ public class PlayerController : MonoBehaviour
         
         // MOVEMENT
         previousPosition = this.gameObject.transform.position; 
-        velocity.x += acceleration.x * Time.deltaTime;
-        velocity.y += acceleration.y * Time.deltaTime;
+        velocity.x += acceleration.x * Time.deltaTime ;
+        velocity.y += acceleration.y * Time.deltaTime ;
         //Debug.Log(velocity);
         fuel -= Mathf.Abs(acceleration.x * Time.deltaTime) + Mathf.Abs(acceleration.y* Time.deltaTime);
 
@@ -116,7 +120,7 @@ public class PlayerController : MonoBehaviour
         previousRotation = this.gameObject.transform.eulerAngles;
         rotationVelocity.z += rotationAccelleration.z * Time.deltaTime;
         Vector3 rotatePlayerPosition = new Vector3();
-        rotatePlayerPosition.z = rotationVelocity.z * Time.deltaTime;
+        rotatePlayerPosition.z = rotationVelocity.z * Time.deltaTime * rotationSpeed;
 
         if (!hitWall && !safeLanding)
         {
@@ -244,7 +248,7 @@ public class PlayerController : MonoBehaviour
                     }
                     if (!clawFullyOpened)
                     {
-                        claw.transform.position += (Vector3.up * Time.deltaTime * clawSpeed);
+                        claw.transform.localPosition += (Vector3.up * Time.deltaTime * clawSpeed);
                     }
                 }
                 if (Input.GetKey(KeyCode.V))
@@ -259,7 +263,7 @@ public class PlayerController : MonoBehaviour
                     }
                     if (!clawFullyClosed)
                     {
-                        claw.transform.position += (Vector3.down * Time.deltaTime * clawSpeed);
+                        claw.transform.localPosition += (Vector3.down * Time.deltaTime * clawSpeed);
                     }
                 }
             }
@@ -269,6 +273,10 @@ public class PlayerController : MonoBehaviour
             // this.gameObject.transform.position = previousPosition;
            // Debug.Log("Crash");
            levelController.GetComponent<LevelController>().FadeOutAnimation();
+           for (int i = 0; i < 6; i++)
+           {
+               allFlames[i].gameObject.SetActive(false);
+           }
         }
         else if (safeLanding)
         {
@@ -276,6 +284,12 @@ public class PlayerController : MonoBehaviour
            // Debug.Log("SafeLanding");
             levelController.GetComponent<LevelController>().FadeOutAnimation();
            // if (gameObjectInProperLocation)
+           for (int i = 0; i < 6; i++)
+           {
+               allFlames[i].gameObject.SetActive(false);
+               
+               
+           }
         }
         //Debug.Log("Current Velocity: " + velocity);
     }

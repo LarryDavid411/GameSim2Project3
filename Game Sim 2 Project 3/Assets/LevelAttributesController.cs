@@ -9,6 +9,7 @@ public class LevelAttributesController : MonoBehaviour
     public Vector3 playerStartPosition;
 
     public bool gameObjectInProperLocation;
+    public Vector3 playerStartRotation;
 
     public bool levelCanAdvance;
     // Start is called before the first frame update
