@@ -8,9 +8,13 @@ public class ClawGrabController : MonoBehaviour
     public bool objectGrabbed;
     public GameObject playerClaw;
     public GameObject clawObjects;
+    public bool startCantGrabObjectTimer;
+    public float cantGrabObjectTimer;
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "ClawObject")
+        
+        
+        if (other.gameObject.tag == "ClawObject" && !startCantGrabObjectTimer)
         {
            // Debug.Log("hit");
             if (!objectGrabbed)
@@ -34,6 +38,16 @@ public class ClawGrabController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
+        if (startCantGrabObjectTimer)
+        {
+            cantGrabObjectTimer += Time.deltaTime;
+            if (cantGrabObjectTimer > 2)
+            {
+                cantGrabObjectTimer = 0;
+                startCantGrabObjectTimer = !startCantGrabObjectTimer;
+            }
+        }
         if (objectGrabbed)
         {
             

@@ -12,6 +12,7 @@ public class LevelSetController : MonoBehaviour
     public GameObject levelManager;
 
     public GameObject playerStartLocation;
+   // public GameObject 
     
     // Start is called before the first frame update
     void Start()

@@ -46,6 +46,15 @@ public class ClawObjectController : MonoBehaviour
         
     }
 
+    public void MoveOutOfPlayerParent()
+    {
+        if (objectGrabbed)
+        {
+            this.gameObject.transform.parent = clawObjects.transform;
+        }
+        
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -57,6 +66,7 @@ public class ClawObjectController : MonoBehaviour
                 this.gameObject.transform.parent = clawObjects.transform;
                 objectGrabbed = false;
                 clawGrabber.GetComponent<ClawGrabController>().objectGrabbed = false;
+                clawGrabber.GetComponent<ClawGrabController>().startCantGrabObjectTimer = true;
             }
 
             clawObjectVelocityFromPlayer = player.GetComponent<PlayerController>().velocity;

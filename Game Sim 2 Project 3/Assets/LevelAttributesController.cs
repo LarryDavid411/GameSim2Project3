@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LevelAttributesController : MonoBehaviour
 {
@@ -10,6 +11,10 @@ public class LevelAttributesController : MonoBehaviour
 
     public bool gameObjectInProperLocation;
     public Vector3 playerStartRotation;
+
+    public Vector3 clawObjectStartPosition;
+
+    public string levelObjectiveText;
 
     public bool levelCanAdvance;
     // Start is called before the first frame update

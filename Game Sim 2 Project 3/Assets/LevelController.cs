@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LevelController : MonoBehaviour
 {
@@ -8,10 +9,14 @@ public class LevelController : MonoBehaviour
     public int currentLevel;
 
     public GameObject player;
-    public GameObject[] levels = new GameObject[2];
+    public GameObject[] levels = new GameObject[4];
 
     public float levelMovementScale;
     public GameObject levelSetController;
+    public GameObject clawObject;
+    public GameObject playerClaw;
+    public GameObject clawGrabber;
+    public Text levelText;
 
     public bool advanceLevel;
 
@@ -32,6 +37,7 @@ public class LevelController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        levelText.text =  levels[currentLevel - 1].GetComponent<LevelAttributesController>().levelObjectiveText;
         // cameraPositionForLevel = new Vector4[10];
         // float levelPositionForY = 0;
         // for (int i = 0; i < 10; i++)
@@ -123,9 +129,21 @@ public class LevelController : MonoBehaviour
         player.GetComponent<PlayerController>().velocity = Vector3.zero;
         player.GetComponent<PlayerController>().rotationAccelleration = Vector3.zero;
         player.GetComponent<PlayerController>().rotationVelocity = Vector3.zero;
+        player.GetComponent<PlayerController>().fuel = 100;
         player.transform.position =
             levels[currentLevel - 1].GetComponent<LevelAttributesController>().playerStartPosition;
         player.transform.eulerAngles = levels[currentLevel - 1].GetComponent<LevelAttributesController>().playerStartRotation;
+        clawObject.GetComponent<ClawObjectController>().MoveOutOfPlayerParent();
+        clawObject.transform.position =
+            levels[currentLevel - 1].GetComponent<LevelAttributesController>().clawObjectStartPosition;
+        levelText.text =  levels[currentLevel - 1].GetComponent<LevelAttributesController>().levelObjectiveText;
+        playerClaw.transform.position = new Vector3(0, 0.2f, 0);
+        clawGrabber.GetComponent<ClawGrabController>().objectGrabbed = false;
+        clawGrabber.GetComponent<ClawGrabController>().cantGrabObjectTimer = 0;
+        clawGrabber.GetComponent<ClawGrabController>().startCantGrabObjectTimer = false;
+        
+       // clawObject.tran
+        
         // levels[currentLevel-1].SetActive(false);
         // currentLevel++;
         // levels[currentLevel-1].SetActive(true);

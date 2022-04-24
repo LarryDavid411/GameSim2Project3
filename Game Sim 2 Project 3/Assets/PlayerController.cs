@@ -3,12 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Numerics;
 using UnityEngine;
+using UnityEngine.UI;
 using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
 
 public class PlayerController : MonoBehaviour
 {
     public float fuel;
+    public GameObject fuelBar;
     public float playerSpeed;
     public float rotationSpeed;
     public Vector2 acceleration;
@@ -67,6 +69,19 @@ public class PlayerController : MonoBehaviour
     public GameObject levelController;
     public bool gameObjectInProperLocation;
 
+    public void ResetFlames()
+    {
+        for (int i = 0; i < 6; i++)
+        {
+            allFlames[i].gameObject.SetActive(false);
+        }
+    }
+
+    public void ResetAccel()
+    {
+        acceleration = Vector2.zero;
+        rotationAccelleration = Vector3.zero;
+    }
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Wall")
@@ -97,12 +112,12 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void ChangeLevel()
+    public void SetFuel(float fuelGauge)
     {
-        
+        fuelBar.GetComponent<Slider>().value = (fuel / 100);
     }
 
-    public void MovePlayer()
+    public void MovePlayer(bool gamePaused)
     {
         
         // MOVEMENT
@@ -111,7 +126,7 @@ public class PlayerController : MonoBehaviour
         velocity.y += acceleration.y * Time.deltaTime ;
         //Debug.Log(velocity);
         fuel -= Mathf.Abs(acceleration.x * Time.deltaTime) + Mathf.Abs(acceleration.y* Time.deltaTime);
-
+        SetFuel(fuel);
         Vector3 movePlayerPosition = new Vector2();
         movePlayerPosition.x = velocity.x * Time.deltaTime * playerSpeed;
         movePlayerPosition.y = velocity.y * Time.deltaTime * playerSpeed;
@@ -267,16 +282,19 @@ public class PlayerController : MonoBehaviour
                     }
                 }
             }
+            else
+            {
+                ResetFlames();
+                rotationAccelleration = Vector3.zero;
+                acceleration = Vector2.zero;
+            }
         }
         else if (hitWall)
         {
             // this.gameObject.transform.position = previousPosition;
            // Debug.Log("Crash");
            levelController.GetComponent<LevelController>().FadeOutAnimation();
-           for (int i = 0; i < 6; i++)
-           {
-               allFlames[i].gameObject.SetActive(false);
-           }
+           ResetFlames();
         }
         else if (safeLanding)
         {
@@ -284,24 +302,8 @@ public class PlayerController : MonoBehaviour
            // Debug.Log("SafeLanding");
             levelController.GetComponent<LevelController>().FadeOutAnimation();
            // if (gameObjectInProperLocation)
-           for (int i = 0; i < 6; i++)
-           {
-               allFlames[i].gameObject.SetActive(false);
-               
-               
-           }
+           ResetFlames();
         }
         //Debug.Log("Current Velocity: " + velocity);
-    }
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
