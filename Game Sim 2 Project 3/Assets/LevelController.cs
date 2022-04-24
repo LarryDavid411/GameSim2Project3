@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class LevelController : MonoBehaviour
@@ -9,7 +10,7 @@ public class LevelController : MonoBehaviour
     public int currentLevel;
 
     public GameObject player;
-    public GameObject[] levels = new GameObject[4];
+    public GameObject[] levels = new GameObject[5];
 
     public float levelMovementScale;
     public GameObject levelSetController;
@@ -35,9 +36,30 @@ public class LevelController : MonoBehaviour
    // public GameObject levelAttributesController;
     
     // Start is called before the first frame update
+    public void RestartEverything()
+    {
+        //Debug.Log(levels.Length);
+        player.GetComponent<PlayerController>().acceleration = Vector2.zero;
+        player.GetComponent<PlayerController>().velocity = Vector3.zero;
+        player.GetComponent<PlayerController>().rotationAccelleration = Vector3.zero;
+        player.GetComponent<PlayerController>().rotationVelocity = Vector3.zero;
+        player.GetComponent<PlayerController>().fuel = 100;
+        player.transform.position =
+            levels[currentLevel - 1].GetComponent<LevelAttributesController>().playerStartPosition;
+        player.transform.eulerAngles = levels[currentLevel - 1].GetComponent<LevelAttributesController>().playerStartRotation;
+        clawObject.GetComponent<ClawObjectController>().MoveOutOfPlayerParent();
+        clawObject.transform.position =
+            levels[currentLevel - 1].GetComponent<LevelAttributesController>().clawObjectStartPosition;
+        levelText.text =  levels[currentLevel - 1].GetComponent<LevelAttributesController>().levelObjectiveText;
+        playerClaw.transform.position = new Vector3(0, 0.2f, 0);
+        clawGrabber.GetComponent<ClawGrabController>().objectGrabbed = false;
+        clawGrabber.GetComponent<ClawGrabController>().cantGrabObjectTimer = 0;
+        clawGrabber.GetComponent<ClawGrabController>().startCantGrabObjectTimer = false;
+    }
     void Start()
     {
-        levelText.text =  levels[currentLevel - 1].GetComponent<LevelAttributesController>().levelObjectiveText;
+        RestartEverything();
+        //levelText.text =  levels[currentLevel - 1].GetComponent<LevelAttributesController>().levelObjectiveText;
         // cameraPositionForLevel = new Vector4[10];
         // float levelPositionForY = 0;
         // for (int i = 0; i < 10; i++)
@@ -47,6 +69,7 @@ public class LevelController : MonoBehaviour
         // }
     }
 
+    
     public void FadeOutAnimation()
     {
         if (!fadingOut)
@@ -106,8 +129,13 @@ public class LevelController : MonoBehaviour
         {
             if (levels[currentLevel - 1].GetComponent<LevelAttributesController>().gameObjectInProperLocation)
             {
+                
                 levels[currentLevel-1].SetActive(false);
                 currentLevel++;
+                if (currentLevel > levels.Length)
+                {
+                    SceneManager.LoadScene("Game Over");
+                }
                 levels[currentLevel-1].SetActive(true);
             }
             else
@@ -125,22 +153,23 @@ public class LevelController : MonoBehaviour
             // SET ACCEL TO ZERO.
            
         }
-        player.GetComponent<PlayerController>().acceleration = Vector2.zero;
-        player.GetComponent<PlayerController>().velocity = Vector3.zero;
-        player.GetComponent<PlayerController>().rotationAccelleration = Vector3.zero;
-        player.GetComponent<PlayerController>().rotationVelocity = Vector3.zero;
-        player.GetComponent<PlayerController>().fuel = 100;
-        player.transform.position =
-            levels[currentLevel - 1].GetComponent<LevelAttributesController>().playerStartPosition;
-        player.transform.eulerAngles = levels[currentLevel - 1].GetComponent<LevelAttributesController>().playerStartRotation;
-        clawObject.GetComponent<ClawObjectController>().MoveOutOfPlayerParent();
-        clawObject.transform.position =
-            levels[currentLevel - 1].GetComponent<LevelAttributesController>().clawObjectStartPosition;
-        levelText.text =  levels[currentLevel - 1].GetComponent<LevelAttributesController>().levelObjectiveText;
-        playerClaw.transform.position = new Vector3(0, 0.2f, 0);
-        clawGrabber.GetComponent<ClawGrabController>().objectGrabbed = false;
-        clawGrabber.GetComponent<ClawGrabController>().cantGrabObjectTimer = 0;
-        clawGrabber.GetComponent<ClawGrabController>().startCantGrabObjectTimer = false;
+        RestartEverything();
+        // player.GetComponent<PlayerController>().acceleration = Vector2.zero;
+        // player.GetComponent<PlayerController>().velocity = Vector3.zero;
+        // player.GetComponent<PlayerController>().rotationAccelleration = Vector3.zero;
+        // player.GetComponent<PlayerController>().rotationVelocity = Vector3.zero;
+        // player.GetComponent<PlayerController>().fuel = 100;
+        // player.transform.position =
+        //     levels[currentLevel - 1].GetComponent<LevelAttributesController>().playerStartPosition;
+        // player.transform.eulerAngles = levels[currentLevel - 1].GetComponent<LevelAttributesController>().playerStartRotation;
+        // clawObject.GetComponent<ClawObjectController>().MoveOutOfPlayerParent();
+        // clawObject.transform.position =
+        //     levels[currentLevel - 1].GetComponent<LevelAttributesController>().clawObjectStartPosition;
+        // levelText.text =  levels[currentLevel - 1].GetComponent<LevelAttributesController>().levelObjectiveText;
+        // playerClaw.transform.position = new Vector3(0, 0.2f, 0);
+        // clawGrabber.GetComponent<ClawGrabController>().objectGrabbed = false;
+        // clawGrabber.GetComponent<ClawGrabController>().cantGrabObjectTimer = 0;
+        // clawGrabber.GetComponent<ClawGrabController>().startCantGrabObjectTimer = false;
         
        // clawObject.tran
         
