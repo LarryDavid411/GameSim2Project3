@@ -15,6 +15,7 @@ public class LevelAttributesController : MonoBehaviour
     public Vector3 clawObjectStartPosition;
 
     public string levelObjectiveText;
+    public bool levelHasClawMech;
 
     public bool levelCanAdvance;
     // Start is called before the first frame update

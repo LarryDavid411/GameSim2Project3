@@ -18,7 +18,9 @@ public class LevelController : MonoBehaviour
     public GameObject playerClaw;
     public GameObject clawGrabber;
     public Text levelText;
+    public GameObject clawInProperPosition;
 
+    public GameObject crashSound;
     public bool advanceLevel;
 
     public Animator animator;
@@ -55,6 +57,9 @@ public class LevelController : MonoBehaviour
         clawGrabber.GetComponent<ClawGrabController>().objectGrabbed = false;
         clawGrabber.GetComponent<ClawGrabController>().cantGrabObjectTimer = 0;
         clawGrabber.GetComponent<ClawGrabController>().startCantGrabObjectTimer = false;
+        crashSound.gameObject.SetActive(false);
+        crashSound.GetComponent<CrashSound>().playOnce = true;
+        //clawInProperPosition.SetActive(false);
     }
     void Start()
     {
@@ -132,7 +137,7 @@ public class LevelController : MonoBehaviour
                 
                 levels[currentLevel-1].SetActive(false);
                 currentLevel++;
-                if (currentLevel > levels.Length)
+                if (currentLevel >= levels.Length)
                 {
                     SceneManager.LoadScene("Game Over");
                 }

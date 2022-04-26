@@ -21,8 +21,12 @@ public class PlayerController : MonoBehaviour
     public Vector3 rotationVelocity;
     public Vector3 rotationAccelleration;
     private Vector3 previousRotation;
-    
 
+    public GameObject crashSound;
+
+    public AudioSource source;
+
+    public AudioClip clip;
     /*
     public GameObject rightJet;
     public GameObject leftJet;
@@ -153,6 +157,10 @@ public class PlayerController : MonoBehaviour
                     acceleration.x = Mathf.Lerp(0f, 20f, time);
                     //leftJet.SetActive(true);
                     leftFlame.gameObject.SetActive(true);
+                    if (!source.isPlaying)
+                    {
+                        source.Play();
+                    }
                 }
 
                 if (Input.GetKey(KeyCode.LeftArrow))
@@ -162,6 +170,10 @@ public class PlayerController : MonoBehaviour
                     acceleration.x = -Mathf.Lerp(0f, 20f, time);
                     //rightJet.SetActive(true);
                     rightFlame.gameObject.SetActive(true);
+                    if (!source.isPlaying)
+                    {
+                        source.Play();
+                    }
                 }
 
                 if (Input.GetKey(KeyCode.UpArrow))
@@ -171,6 +183,10 @@ public class PlayerController : MonoBehaviour
                     acceleration.y = Mathf.Lerp(0f, 20f, time);
                     //bottomJet.SetActive(true);
                     bottomFlame.gameObject.SetActive(true);
+                    if (!source.isPlaying)
+                    {
+                        source.Play();
+                    }
                 }
 
                 if (Input.GetKey(KeyCode.DownArrow))
@@ -180,6 +196,10 @@ public class PlayerController : MonoBehaviour
                     acceleration.y = -Mathf.Lerp(0f, 20f, time);
                    // topJet.SetActive(true);
                     topFlame.gameObject.SetActive(true);
+                    if (!source.isPlaying)
+                    {
+                        source.Play();
+                    }
                 }
                 
                 
@@ -190,6 +210,10 @@ public class PlayerController : MonoBehaviour
                     rotationAccelleration.z = -Mathf.Lerp(0, 10, time);
                    //  leftRotationJet.SetActive(true);
                     leftRotationFlame.gameObject.SetActive(true);
+                    if (!source.isPlaying)
+                    {
+                        source.Play();
+                    }
 
                 }
                 if (Input.GetKey(KeyCode.F))
@@ -199,6 +223,10 @@ public class PlayerController : MonoBehaviour
                     rotationAccelleration.z = Mathf.Lerp(0, 5, time);
                     //  rightRotationJet.SetActive(true);
                     rightRotationFlame.gameObject.SetActive(true);
+                    if (!source.isPlaying)
+                    {
+                        source.Play();
+                    }
                 }
 
                 // Key Released
@@ -208,6 +236,7 @@ public class PlayerController : MonoBehaviour
                     movementTimerRight = 0;
                    // leftJet.SetActive(false);
                    leftFlame.gameObject.SetActive(false);
+                   source.Stop();
                 }
 
                 if (Input.GetKeyUp(KeyCode.LeftArrow))
@@ -216,6 +245,7 @@ public class PlayerController : MonoBehaviour
                     movementTimerLeft = 0;
                    // rightJet.SetActive(false);
                    rightFlame.gameObject.SetActive(false);
+                   source.Stop();
                 }
 
                 if (Input.GetKeyUp(KeyCode.UpArrow))
@@ -224,6 +254,7 @@ public class PlayerController : MonoBehaviour
                     movementTimerUp = 0;
                     //bottomJet.SetActive(false);
                     bottomFlame.gameObject.SetActive(false);
+                    source.Stop();
                 }
 
                 if (Input.GetKeyUp(KeyCode.DownArrow))
@@ -232,6 +263,7 @@ public class PlayerController : MonoBehaviour
                     movementTimerDown = 0;
                     //topJet.SetActive(false);
                     topFlame.gameObject.SetActive(false);
+                    source.Stop();
                    
                 }
                 if (Input.GetKeyUp(KeyCode.A))
@@ -240,6 +272,7 @@ public class PlayerController : MonoBehaviour
                     rotateTimerA = 0;
                     //leftRotationJet.SetActive(false);
                     leftRotationFlame.gameObject.SetActive(false);
+                    source.Stop();
                 }
                 if (Input.GetKeyUp(KeyCode.F))
                 {
@@ -247,6 +280,7 @@ public class PlayerController : MonoBehaviour
                     rotateTimerF = 0;
                     //rightRotationJet.SetActive(false);
                     rightRotationFlame.gameObject.SetActive(false);
+                    source.Stop();
                 }
                 
                 // CLAW OPERATION
@@ -295,6 +329,7 @@ public class PlayerController : MonoBehaviour
            // Debug.Log("Crash");
            levelController.GetComponent<LevelController>().FadeOutAnimation();
            ResetFlames();
+           crashSound.gameObject.SetActive(true);
         }
         else if (safeLanding)
         {

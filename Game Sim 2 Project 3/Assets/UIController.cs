@@ -218,6 +218,11 @@ public class UIController : MonoBehaviour
         }
 
     }
+
+    public void UpdateClawObjectInPositionUI()
+    {
+       // if ()
+    }
     // Update is called once per frame
     void Update()
     {
@@ -244,6 +249,7 @@ public class UIController : MonoBehaviour
             RotateTabClosed();
         }
 
+        UpdateClawObjectInPositionUI();
         FuelGauge();
         UpdateMovementGauges();
     }

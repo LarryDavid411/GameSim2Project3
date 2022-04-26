@@ -25,6 +25,10 @@ Game Sim 2 Project 3/[Uu]ser[Ss]ettings/
 
 # Visual Studio cache directory
 .vs/
+/WebGame
+/windows.zip
+/windows
+/Game Sim 2 Project 3.zip
 
 # Gradle cache directory
 .gradle/
